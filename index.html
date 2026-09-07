@@ -1,0 +1,367 @@
+<!DOCTYPE html> <html lang="pt-BR"> <head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+>
+
+<title>Meu RPG</title>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+
+    html,
+    body {
+
+        margin: 0;
+        padding: 0;
+
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+
+        background: #111;
+
+        touch-action: none;
+
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+
+    body {
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        position: relative;
+    }
+
+
+    /* ========================================
+       CANVAS
+    ======================================== */
+
+    #game {
+
+        display: block;
+
+        background: #000;
+
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+
+        width: 100vw;
+        height: 100vw;
+
+        max-width: 100vw;
+        max-height: 100vh;
+
+        object-fit: contain;
+    }
+
+
+    /* ========================================
+       CONTROLES TOUCH
+    ======================================== */
+
+    #touch-controls {
+
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 100;
+
+        pointer-events: none;
+    }
+
+
+    /* ========================================
+       JOYSTICK
+    ======================================== */
+
+    #joystick {
+
+        position: absolute;
+
+        left: 30px;
+        bottom: 30px;
+
+        width: 120px;
+        height: 120px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(0, 0, 0, 0.35);
+
+        border:
+            3px solid
+            rgba(255, 255, 255, 0.35);
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        pointer-events: auto;
+
+        touch-action: none;
+    }
+
+
+    #joystick-knob {
+
+        width: 52px;
+        height: 52px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(255, 255, 255, 0.65);
+
+        border:
+            2px solid
+            rgba(255, 255, 255, 0.9);
+
+        box-shadow:
+            0 4px 12px
+            rgba(0, 0, 0, 0.5);
+
+        pointer-events: none;
+    }
+
+
+    /* ========================================
+       BOTÕES
+    ======================================== */
+
+    #action-buttons {
+
+        position: absolute;
+
+        right: 30px;
+        bottom: 30px;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 58px);
+
+        grid-template-rows:
+            repeat(2, 58px);
+
+        gap: 8px;
+
+        pointer-events: auto;
+    }
+
+
+    .action-button {
+
+        width: 58px;
+        height: 58px;
+
+        padding: 0;
+
+        border-radius: 50%;
+
+        background:
+            rgba(255, 255, 255, 0.15);
+
+        border:
+            2px solid
+            rgba(255, 255, 255, 0.45);
+
+        color: white;
+
+        touch-action: none;
+
+        font-size: 20px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .action-button:active {
+
+        transform: scale(0.9);
+
+        background:
+            rgba(255, 255, 255, 0.3);
+    }
+
+
+    /* ========================================
+       SOMENTE TOUCH
+    ======================================== */
+
+    @media (pointer: coarse) {
+
+        #touch-controls {
+
+            display: block;
+        }
+    }
+
+
+    /* ========================================
+       CELULAR EM PÉ
+    ======================================== */
+
+    @media
+    (pointer: coarse)
+    and
+    (orientation: portrait) {
+
+        #game {
+
+            width: 100vw;
+            height: 100vw;
+            max-height: 100vw;
+            /* Sobe a área do jogo. */
+            transform: translateY(-18vh);
+        }
+
+
+        #joystick {
+
+            left: 24px;
+            bottom: 18vh; /* Sobe o joystick. */
+        }
+
+
+        #action-buttons {
+
+            right: 24px;
+            bottom: 18vh; /* Sobe os botões. */
+        }
+    }
+
+
+    /* ========================================
+       CELULAR DEITADO
+    ======================================== */
+
+    @media
+    (pointer: coarse)
+    and
+    (orientation: landscape) {
+
+        #game {
+
+            width: 100vh;
+            height: 100vh;
+        }
+
+
+        #joystick {
+
+            left: 28px;
+            top: 10%;
+        }
+
+
+        #action-buttons {
+
+            right: 28px;
+            top: 10%;
+        }
+    }
+
+</style>
+
+</head> <body>
+<!-- ========================================
+     JOGO
+======================================== -->
+
+<canvas id="game"></canvas>
+
+
+<!-- ========================================
+     CONTROLES TOUCH
+======================================== -->
+
+<div id="touch-controls">
+
+
+    <!-- JOYSTICK -->
+
+    <div id="joystick">
+
+        <div id="joystick-knob"></div>
+
+    </div>
+
+
+    <!-- BOTÕES -->
+
+    <div id="action-buttons">
+
+        <button
+            class="action-button"
+            id="button-a"
+            type="button"
+        >
+            A
+        </button>
+
+
+        <button
+            class="action-button"
+            id="button-b"
+            type="button"
+        >
+            B
+        </button>
+
+
+        <button
+            class="action-button"
+            id="button-x"
+            type="button"
+        >
+            Y
+        </button>
+
+
+        <button
+            class="action-button"
+            id="button-y"
+            type="button"
+        >
+            Z
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     JOGO
+======================================== -->
+
+<script
+    type="module"
+    src="./src/main.js"
+></script>
+
+</body> </html>
