@@ -6,44 +6,30 @@ constructor() {
     // TECLADO
     // ========================================
 
-    this.keysDown =
-        new Set();
-
-    this.keysPressed =
-        new Set();
-
-    this.keysReleased =
-        new Set();
-
+    this.keysDown = new Set();
+    this.keysPressed = new Set();
+    this.keysReleased = new Set();
 
     // ========================================
     // TOUCH
     // ========================================
 
-    this.touchKeys =
-        new Set();
-
+    this.touchKeys = new Set();
 
     // ========================================
     // JOYSTICK
     // ========================================
 
-    this.joystick =
-        null;
-
-    this.joystickKnob =
-        null;
-
-    this.joystickPointerId =
-        null;
-
+    this.joystick = null;
+    this.joystickKnob = null;
+    this.joystickPointerId = null;
 
     this.setupTouch();
+    this.setupKeyboard();
 }
 
-
 // ========================================
-// TOUCH
+// TOUCH CONFIGURAÇÃO
 // ========================================
 
 setupTouch() {
@@ -246,6 +232,64 @@ setupTouch() {
             }
         );
     }
+}
+// ========================================
+// TECLADO  CONFIGURAÇÃO
+// ========================================
+
+setupKeyboard() {
+
+    window.addEventListener(
+        "keydown",
+        (event) => {
+
+            const key = event.code;
+
+            // Impede repetir enquanto segura a tecla
+            if (!this.keysDown.has(key)) {
+
+                this.keysDown.add(key);
+
+                this.keysPressed.add(key);
+            }
+
+            // Evita comportamentos do navegador
+            // para teclas usadas pelo jogo.
+            if (
+                key === "ArrowUp" ||
+                key === "ArrowDown" ||
+                key === "ArrowLeft" ||
+                key === "ArrowRight" ||
+                key === "Space"
+            ) {
+                event.preventDefault();
+            }
+        }
+    );
+
+
+    window.addEventListener(
+        "keyup",
+        (event) => {
+
+            const key = event.code;
+
+            this.keysDown.delete(key);
+
+            this.keysReleased.add(key);
+        }
+    );
+
+
+    // Se a janela perder o foco,
+    // limpa as teclas que estavam pressionadas.
+    window.addEventListener(
+        "blur",
+        () => {
+
+            this.keysDown.clear();
+        }
+    );
 }
 
 
