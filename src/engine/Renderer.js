@@ -189,5 +189,37 @@ drawImageFrame(
     );
 }
 
+// ========================================
+// TEXT
+// ========================================
+
+drawText(
+    text,
+    x,
+    y,
+    color = "#ffffff",
+    font = "20px Arial",
+    align = "center",
+    alpha = 1
+) {
+
+    this.context.save();
+
+    this.context.globalAlpha = alpha;
+
+    this.context.fillStyle = color;
+    this.context.font = font;
+    this.context.textAlign = align;
+    this.context.textBaseline = "middle";
+
+    this.context.fillText(
+        text,
+        x,
+        y
+    );
+
+    this.context.restore();
+}
+
 
 }
