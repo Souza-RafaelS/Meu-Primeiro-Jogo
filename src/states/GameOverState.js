@@ -33,7 +33,7 @@ export class GameOverState {
 
         if (
             this.game.input.isPressed(
-                "Enter"
+                "space"
             )
         ) {
 
