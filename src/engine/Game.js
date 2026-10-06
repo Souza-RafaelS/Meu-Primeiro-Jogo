@@ -8,9 +8,10 @@ import { GameLoop } from "./GameLoop.js";
 import { MapManager } from "../maps/MapManager.js";
 import { GameConfig } from "./GameConfig.js";
 
-
+import { GameOverState } from "../states/GameOverState.js";
 import { MenuState } from "../states/MenuState.js";
 import { GameState } from "../states/GameState.js";
+
 
 export class Game {
 
@@ -58,6 +59,11 @@ constructor(canvas) {
         "JOGO",
         new GameState(this)
     );
+    
+    this.states.add(
+        "GAMEOVER",
+        new GameOverState(this)
+    );
 
     this.states.change("MENU");
 
@@ -78,8 +84,15 @@ constructor(canvas) {
         this.render();
     };
 }
+startGame() {
 
+    this.states.add(
+        "JOGO",
+        new GameState(this)
+    );
 
+    this.states.change("JOGO");
+}
 start() {
 
     this.loop.start();
@@ -87,6 +100,8 @@ start() {
 
 
 update(delta) {
+
+    this.input.updateActions(delta);
 
     this.states.update(delta);
 

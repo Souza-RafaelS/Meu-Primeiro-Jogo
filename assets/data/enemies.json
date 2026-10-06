@@ -1,0 +1,28 @@
+{
+  "definitions": {
+    "slime": {
+      "name": "Geleia Verde",
+      "speed": 80,
+      "health": 3,
+      "damage": 1,
+      "detectionRadius": 150,
+      "attackRadius": 24,
+      "sprite": "./assets/sprites/heroi0A.png",
+      "frameWidth": 16,
+      "frameHeight": 20,
+      "frameCount": 4,
+      "drawWidth": 32,
+      "drawHeight": 40
+    }
+  },
+  "placements": {
+    "test": [
+      { "type": "slime", "x": 250, "y": 200 },
+      { "type": "slime", "x": 400, "y": 300 },
+      { "type": "slime", "x": 550, "y": 150 }
+    ],
+    "test2": [
+      { "type": "slime", "x": 150, "y": 150 }
+    ]
+  }
+}

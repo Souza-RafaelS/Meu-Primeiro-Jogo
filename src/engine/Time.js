@@ -44,7 +44,7 @@ export class Time {
         if (this._fpsTimer >= 1) {
             this.fps = this._frameCount;
 
-            console.log(`FPS: ${this.fps}`);
+            //console.log(`FPS: ${this.fps}`);
 
             this._frameCount = 0;
             this._fpsTimer = 0;

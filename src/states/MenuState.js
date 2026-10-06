@@ -27,7 +27,7 @@ export class MenuState {
 
         if (this.game.input.isPressed("Space")) {
 
-            this.game.states.change("JOGO");
+            this.game.startGame();
         }
 
 

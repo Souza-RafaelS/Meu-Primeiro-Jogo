@@ -152,41 +152,38 @@ drawImageFrame(
     x,
     y,
     width,
-    height
+    height,
+    tintColor = null
 ) {
 
-    const position =
-        this.getScreenPosition(
-            x,
-            y
-        );
+    const position = this.getScreenPosition(x, y);
 
-
-    const zoom =
-        this.camera &&
-        this.camera.zoom
-            ? this.camera.zoom
-            : 1;
+    const zoom = this.camera && this.camera.zoom ? this.camera.zoom : 1;
     
     this.context.imageSmoothingEnabled = false;
 
+    if (tintColor === "#FF0000") {
+        // Sepia força os pixels para tons de marrom/cinza, e hue-rotate joga para o vermelho puro brilhante
+        this.context.save();
+        this.context.filter = "invert(17%) sepia(99%) saturate(7400%) hue-rotate(357deg) brightness(90%) contrast(110%)";
+    }
 
     this.context.drawImage(
-
         image,
-
         sourceX,
         sourceY,
-
         sourceWidth,
         sourceHeight,
-
         position.x,
         position.y,
-
         width * zoom,
         height * zoom
     );
+    // CORREÇÃO: Se o filtro foi aplicado, precisamos restaurar o contexto original
+    if (tintColor === "#FF0000") {
+        this.context.restore();
+    }
+
 }
 
 // ========================================
