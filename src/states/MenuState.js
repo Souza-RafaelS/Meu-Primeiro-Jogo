@@ -11,13 +11,13 @@ export class MenuState {
 
     enter() {
 
-        console.log("ENTROU NO MENU");
+        //console.log("ENTROU NO MENU");
     }
 
 
     exit() {
 
-        console.log("SAIU DO MENU");
+        //console.log("SAIU DO MENU");
     }
 
 
@@ -25,7 +25,7 @@ export class MenuState {
 
         //console.log(delta);
 
-        if (this.game.input.isPressed("Space")) {
+        if (this.game.input.isActionPressed("playerAttack1")) {
 
             this.game.startGame();
         }

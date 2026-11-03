@@ -41,9 +41,7 @@ register(id, mapData) {
 
     if (!id) {
 
-        console.warn(
-            "MapManager: ID de mapa inválido."
-        );
+        //console.warn("MapManager: ID de mapa inválido.");
 
         return;
     }
@@ -51,10 +49,7 @@ register(id, mapData) {
 
     if (!mapData) {
 
-        console.warn(
-            "MapManager: mapa inválido:",
-            id
-        );
+        //console.warn("MapManager: mapa inválido:",id);
 
         return;
     }
@@ -66,10 +61,7 @@ register(id, mapData) {
     );
 
 
-    console.log(
-        "Mapa registrado:",
-        id
-    );
+    //console.log("Mapa registrado:", id );
 }
 
 
@@ -85,10 +77,7 @@ get(id) {
 
     if (!map) {
 
-        console.warn(
-            "Mapa não encontrado:",
-            id
-        );
+        //console.warn( "Mapa não encontrado:",id );
 
         return null;
     }

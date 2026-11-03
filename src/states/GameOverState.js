@@ -31,15 +31,8 @@ export class GameOverState {
         // ENTER
         // volta para o menu
 
-        if (
-            this.game.input.isPressed(
-                "Space"
-            )
-        ) {
-
-            this.game.states.change(
-                "MENU"
-            );
+        if (this.game.input.isActionPressed("playerAttack1")) {
+            this.game.states.change("MENU");
         }
     }
 

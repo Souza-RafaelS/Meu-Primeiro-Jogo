@@ -12,7 +12,7 @@ initialMap: "test",
 // ========================================
 
 player: {
-
+    maxHealth: 5,
     speed: 200
 },
 

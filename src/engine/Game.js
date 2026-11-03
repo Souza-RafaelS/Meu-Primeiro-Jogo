@@ -83,6 +83,8 @@ constructor(canvas) {
 
         this.render();
     };
+
+
 }
 startGame() {
 

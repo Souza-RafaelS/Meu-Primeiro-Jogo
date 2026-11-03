@@ -44,23 +44,11 @@ export class GameState {
 
         const spawn =
             this.world.getSpawn("inicio");
-
-
-        this.player =
-            new Player(
-                this.game,
-                spawn.x,
-                spawn.y
-            );
-
-
-        this.player.speed =
-            this.game.config.player.speed;
-
-
-        this.entities.add(
-            this.player
-        );
+            this.player = new Player(this.game,spawn.x,spawn.y);
+            this.player.maxHealth = this.game.config.player.maxHealth;
+            this.player.health = this.game.config.player.maxHealth;
+            this.player.speed = this.game.config.player.speed;
+            this.entities.add( this.player );
     }
 
 

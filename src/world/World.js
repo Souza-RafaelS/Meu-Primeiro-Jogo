@@ -13,14 +13,11 @@ constructor(game, mapId) {
     this.tileset.src = "./assets/sprites/tileset0A.png";
 
     this.tileset.onload = () => {
-        console.log("Tileset carregado: tileset0A.png");
+        //console.log("Tileset carregado: tileset0A.png");
     };
 
     this.tileset.onerror = () => {
-        console.error(
-            "Erro ao carregar tileset:",
-            this.tileset.src
-        );
+        //console.error( "Erro ao carregar tileset:", this.tileset.src );
     };
     //=========================================
     // SPRITE DE SAIDA
@@ -196,12 +193,7 @@ loadMap(mapId) {
     this.createObjects();
 
 
-    console.log(
-        "Mapa carregado:",
-        typeof mapId === "string"
-            ? mapId
-            : "dados"
-    );
+    // console.log("Mapa carregado:",typeof mapId === "string"? mapId: "dados");
 }
 
 
