@@ -3,9 +3,10 @@ export const ItemDatabase = {
     potion: {
         id: "potion",
         name: "Poção",
-        description: "Recupera 50 HP",
+        description: "Recupera 2 HP",
         type: "consumable",
-        value: 25
+        value: 25,
+        healAmount: 2,
     },
 
     ether: {

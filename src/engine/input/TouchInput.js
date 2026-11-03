@@ -88,62 +88,49 @@ export class TouchInput {
     }
     setupButtons() {
 
-        // BOTÕES DE AÇÃO
-    const buttonA = document.getElementById("button-a");
-    const buttonB = document.getElementById("button-b");
-
-    if (buttonA) { 
-        buttonA.addEventListener("pointerdown", (event) => {
-            event.preventDefault();
-            // PROTEÇÃO: Só dispara a ação se ela já não estiver ativa
-            if (this.actionDown.has("playerAttack1")) return; 
-            
-            this.actionPressed.add("playerAttack1");
-            console.log(this.actionPressed)
-
-            this.actionDown.add("playerAttack1");
-            //console.log("[TOUCH] Botão A → playerAttack1");
-        });
-
-        buttonA.addEventListener("pointerup", (event) => {
-            event.preventDefault();
-            this.actionDown.delete("playerAttack1");
-            this.actionReleased.add("playerAttack1");
-            //console.log("[TOUCH] Botão A liberado");
-        });
-
-        buttonA.addEventListener("pointercancel", () => {
-            this.actionDown.delete("playerAttack1");
-            this.actionReleased.add("playerAttack1");
-            //console.log("[TOUCH] Botão A cancelado");
-        });
+        this.bindActionButton("button-a", ["playerAttack1", "confirm"]);
+        this.bindActionButton("button-b", "playerRun");
+        this.bindActionButton("button-x", "playerAttack2");
+        this.bindActionButton("button-y", "inventory");
     }
 
-    if (buttonB) { 
-        buttonB.addEventListener("pointerdown", (event) => {
+    bindActionButton(buttonId, action) {
+        const button = document.getElementById(buttonId);
+        const actions = Array.isArray(action) ? action : [action];
+
+        if (!button) {
+            return;
+        }
+
+        button.addEventListener("pointerdown", (event) => {
             event.preventDefault();
-            // PROTEÇÃO: Seguindo o mesmo padrão do Botão A usando ações mapeadas
-            if (this.actionDown.has("playerRun")) return;
 
-            this.actionPressed.add("playerRun");
-            this.actionDown.add("playerRun")
-            //console.log("[TOUCH] Botão B → playerRun");
+            if (actions.every(name => this.actionDown.has(name))) {
+                return;
+            }
+
+            button.setPointerCapture(event.pointerId);
+            for (const name of actions) {
+                if (!this.actionDown.has(name)) {
+                    this.actionPressed.add(name);
+                    this.actionDown.add(name);
+                }
+            }
         });
 
-        buttonB.addEventListener("pointerup", (event) => {
+        const releaseAction = (event) => {
             event.preventDefault();
-            this.actionDown.delete("playerRun");
-            this.actionReleased.add("playerRun")
-            //console.log("[TOUCH] Botão B liberado");
-        });
 
-        buttonB.addEventListener("pointercancel", () => {
-            this.actionDown.delete("playerRun");
-            this.actionReleased.add("playerRun")
-            //console.log("[TOUCH] Botão B cancelado");
-        });
+            for (const name of actions) {
+                if (this.actionDown.delete(name)) {
+                    this.actionReleased.add(name);
+                }
+            }
+        };
+
+        button.addEventListener("pointerup", releaseAction);
+        button.addEventListener("pointercancel", releaseAction);
     }
-}
 
     updateJoystick(event) {
         const rect = this.joystick.getBoundingClientRect();

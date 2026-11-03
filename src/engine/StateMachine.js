@@ -4,6 +4,7 @@ export class StateMachine {
 
         this.states = new Map();
         this.currentState = null;
+        this.currentStateName = null;
     }
 
 
@@ -29,6 +30,7 @@ export class StateMachine {
 
 
         this.currentState = nextState;
+        this.currentStateName = name;
 
 
         if (this.currentState.enter) {

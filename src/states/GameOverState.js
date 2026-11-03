@@ -28,10 +28,10 @@ export class GameOverState {
 
     update(delta) {
 
-        // ENTER
-        // volta para o menu
-
-        if (this.game.input.isActionPressed("playerAttack1")) {
+        if (
+            this.game.input.isActionPressed("confirm") ||
+            this.game.input.isActionPressed("playerAttack1")
+        ) {
             this.game.states.change("MENU");
         }
     }
@@ -83,7 +83,7 @@ export class GameOverState {
 
         renderer.drawText(
 
-            "Pressione ENTER para voltar ao Menu",
+            "Pressione ENTER ou botão A para voltar ao Menu",
             renderer.width / 2,
             renderer.height / 2 + 30,
             "#ffffff",

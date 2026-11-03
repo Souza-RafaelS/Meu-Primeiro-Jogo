@@ -40,9 +40,9 @@ export class Player extends Entity {
         // COMBATE
         this.combat = new Combat(this, {
                     // vida
-                    maxHealth: 10,
+                    maxHealth: game.config.player.maxHealth,
                     // Ataque
-                    attackDamage: 1,
+                    attackDamage: game.config.player.attackDamage,
                     attackRange: 24,
                     attackHitboxSize: 32,
                     attackDuration: 0.2,
@@ -55,7 +55,7 @@ export class Player extends Entity {
         
         this.inventory.addItem("potion", 5);
 
-        console.table(this.inventory.slots);
+        this.game.player = this;
     }
 
     // ========================================
@@ -70,13 +70,13 @@ export class Player extends Entity {
         // GERENCIAMENTO DE ATAQUES E COMBOS
         if (!combatLocker) {
             // SE APERTAR O BOTÃO DE ATAQUE 1 (Ex: Botão Esquerdo ou Tecla X)
-            if (input.isActionDown("playerAttack1")) {
+            if (input.isActionPressed("playerAttack1")) {
                 this.combat.attack("attack1");
                 this.clearMovementState();
                 return;
             }
             // SE APERTAR O BOTÃO DE ATAQUE 2 (Ex: Botão Direito ou Tecla C)
-            else if (input.isActionDown("playerAttack2")) {
+            else if (input.isActionPressed("playerAttack2")) {
                 this.combat.attack("attack2");
                 this.clearMovementState();
                 return;
@@ -89,10 +89,10 @@ export class Player extends Entity {
         // ========================================
         // INPUT DE MOVIMENTO
         this.direction.set(0, 0);
-        if (input.isDown("ArrowLeft"))  this.direction.x -= 1;
-        if (input.isDown("ArrowRight")) this.direction.x += 1;
-        if (input.isDown("ArrowUp"))    this.direction.y -= 1;
-        if (input.isDown("ArrowDown"))  this.direction.y += 1;
+        if (input.isActionDown("moveLeft"))  this.direction.x -= 1;
+        if (input.isActionDown("moveRight")) this.direction.x += 1;
+        if (input.isActionDown("moveUp"))    this.direction.y -= 1;
+        if (input.isActionDown("moveDown"))  this.direction.y += 1;
 
         // ========================================
         // NORMALIZAR E VERIFICAR ESTADO

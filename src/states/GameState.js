@@ -12,8 +12,7 @@ export class GameState {
         // MAPA INICIAL
         // ========================================
 
-        this.currentMap =
-            this.game.config.initialMap;
+        this.currentMap = this.game.config.initialMap;
 
 
         // ========================================
@@ -45,8 +44,6 @@ export class GameState {
         const spawn =
             this.world.getSpawn("inicio");
             this.player = new Player(this.game,spawn.x,spawn.y);
-            this.player.maxHealth = this.game.config.player.maxHealth;
-            this.player.health = this.game.config.player.maxHealth;
             this.player.speed = this.game.config.player.speed;
             this.entities.add( this.player );
     }
@@ -199,13 +196,12 @@ export class GameState {
         // ====================================
 
         if (
-            this.player.health <= 0
+            this.player.combat.health <= 0
         ) {
 
-            this.player.health = 0;
+            this.player.combat.health = 0;
 
             this.game.states.change( "GAMEOVER" );
-S
             return;
         }
 
@@ -233,12 +229,12 @@ S
         // ====================================
 
         if (
-            this.player.isAttacking &&
-            this.player.swordHitbox
+            this.player.combat.isAttacking &&
+            this.player.combat.swordHitbox
         ) {
 
             const sword =
-                this.player.swordHitbox;
+                this.player.combat.swordHitbox;
 
 
             for (
@@ -297,13 +293,14 @@ S
 
                         // Causa dano
                         entity.takeDamage(
-                            1,
+                            this.player.combat.attackDamage *
+                                this.player.combat.currentAttackMultiplier,
                             this.player.directionRow
                         );
 
 
                         // Remove a hitbox
-                        this.player.swordHitbox =
+                        this.player.combat.swordHitbox =
                             null;
 
 
@@ -386,10 +383,10 @@ S
         // ========================================
 
         if (
-            this.player.health <= 0
+            this.player.combat.health <= 0
         ) {
 
-            this.player.health = 0;
+            this.player.combat.health = 0; 
 
             this.game.states.change( "GAMEOVER" );
 
@@ -541,19 +538,19 @@ S
         // ========================================
 
         if (
-            this.player.isAttacking &&
-            this.player.swordHitbox
+            this.player.combat.isAttacking &&
+            this.player.combat.swordHitbox
         ) {
 
             renderer.fillRect(
 
-                this.player.swordHitbox.x,
+                this.player.combat.swordHitbox.x,
 
-                this.player.swordHitbox.y,
+                this.player.combat.swordHitbox.y,
 
-                this.player.swordHitbox.width,
+                this.player.combat.swordHitbox.width,
 
-                this.player.swordHitbox.height,
+                this.player.combat.swordHitbox.height,
 
                 "rgba(255, 0, 0, 0.4)"
             );
@@ -613,7 +610,7 @@ S
 
         for (
             let i = 0;
-            i < this.player.maxHealth;
+            i < this.player.combat.maxHealth;
             i++
         ) {
 
@@ -629,7 +626,7 @@ S
             // Coração cheio
             if (
                 i <
-                this.player.health
+                this.player.combat.health
             ) {
 
                 ctx.fillStyle =

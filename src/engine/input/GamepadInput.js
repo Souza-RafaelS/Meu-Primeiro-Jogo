@@ -41,6 +41,13 @@ export class GamepadInput {
                     this.gamepadIndex === event.gamepad.index
                 ) {
                     this.gamepadIndex = null;
+                    this.keysDown.clear();
+
+                    for (const action of this.actionDown) {
+                        this.actionReleased.add(action);
+                    }
+
+                    this.actionDown.clear();
                 }
 
                 console.log(
@@ -64,6 +71,13 @@ export class GamepadInput {
         ];
 
         if (!gamepad) {
+            this.keysDown.clear();
+
+            for (const action of this.actionDown) {
+                this.actionReleased.add(action);
+            }
+
+            this.actionDown.clear();
             return;
         }
 
@@ -87,30 +101,20 @@ export class GamepadInput {
             this.keysDown.add("ArrowUp");
         }
 
-        const buttonA = gamepad.buttons[0];
+        this.updateAction("playerAttack1", gamepad.buttons[0]?.pressed);
+        this.updateAction("confirm", gamepad.buttons[0]?.pressed);
+        this.updateAction("playerRun", gamepad.buttons[1]?.pressed);
+        this.updateAction("playerAttack2", gamepad.buttons[2]?.pressed);
+        this.updateAction("inventory", gamepad.buttons[3]?.pressed);
+    }
 
-        if (buttonA.pressed) {
-
-            //console.log("A pressionado");
-
-            if (!this.actionDown.has("playerAttack1")) {
-
-                this.actionPressed.add("playerAttack1");
-
-                this.actionDown.add("playerAttack1");
-            }
-        } else {
-
-            if(this.actionDown.has("playerAttack1")) {
-
-                this.actionDown.delete("playerAttack1");
-                this.actionReleased.add("playerAttack1")
-            }
+    updateAction(action, isPressed = false) {
+        if (isPressed && !this.actionDown.has(action)) {
+            this.actionDown.add(action);
+            this.actionPressed.add(action);
+        } else if (!isPressed && this.actionDown.delete(action)) {
+            this.actionReleased.add(action);
         }
-
-
-
-
     }
 
     isDown(key) {

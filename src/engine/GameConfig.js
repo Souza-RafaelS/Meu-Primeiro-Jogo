@@ -13,6 +13,7 @@ initialMap: "test",
 
 player: {
     maxHealth: 5,
+    attackDamage: 1,
     speed: 200
 },
 

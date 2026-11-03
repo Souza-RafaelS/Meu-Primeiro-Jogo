@@ -57,11 +57,8 @@ getRenderables(
 
             object: object,
 
-            // Objetos participam
-            // do mesmo depth do Player
-
             layer:
-                this.layers.world
+                object.renderLayer ?? this.layers.world
         });
     }
 
@@ -87,11 +84,8 @@ getRenderables(
 
             object: entity,
 
-            // Player e NPCs participam
-            // do mesmo depth dos objetos
-
             layer:
-                this.layers.world
+                entity.renderLayer ?? this.layers.world
         });
     }
 

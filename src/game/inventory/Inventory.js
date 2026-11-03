@@ -3,7 +3,7 @@ from "../../content/items/ItemDatabase.js";
 
 export class Inventory {
 
-    constructor(size = 10) {
+    constructor(size = 20) {
 
         this.size = size;
 

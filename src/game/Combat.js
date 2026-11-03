@@ -118,11 +118,11 @@ export class Combat {
         if (this.currentComboStep === 3) {
             this.currentAttackMultiplier *= 2.0; // Dobra o dano atual
             this.currentAttackDuration += 0.1;   // Adiciona mais peso visual (lentidão)
-            //console.log("💥 GOLPE FINALIZADOR ATIVADO!");
+            console.log("💥 GOLPE FINALIZADOR ATIVADO!");
         }
 
         this.attackTimer = this.currentAttackDuration;
-        //console.log(`Combo: ${this.currentComboStep}/3 | Tipo: ${type} | Multiplicador Dano: x${this.currentAttackMultiplier}`);
+        console.log(`Combo: ${this.currentComboStep}/3 | Tipo: ${type} | Multiplicador Dano: x${this.currentAttackMultiplier}`);
     }
 
     // ========================================
@@ -191,7 +191,7 @@ export class Combat {
         this.blinkTimer = this.blinkDuration;
         this.invincibleTimer = this.invincibleDuration;
         
-        //console.log(`${this.entity.constructor.name} levou dano! Vida atual: ${this.health}`);
+        console.log(`${this.entity.constructor.name} levou dano! Vida atual: ${this.health}`);
       //  if (this.health 0; }
     //isInvincible() { return this.invincibleTimer > 0; }
    /* resetHealth() {

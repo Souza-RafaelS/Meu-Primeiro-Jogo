@@ -17,6 +17,10 @@ export class Enemy extends Entity {
         // ========================================
         this.health = enemyData.health || 3;
         this.damage = enemyData.damage || 1;
+        this.drops = Array.isArray(enemyData.drops)
+            ? enemyData.drops
+            : [];
+        this.hasDroppedLoot = false;
         this.detectionRadius = enemyData.detectionRadius || 150;
         this.attackRadius = enemyData.attackRadius || 24;
         
@@ -164,7 +168,8 @@ export class Enemy extends Entity {
         if (this.health <= 0) {
             this.active = false;
             console.log(`${this.name} foi derrotado!`);
-            return; 
+            this.dropLoot();
+            return true;
         }
 
         this.blinkTimer = this.blinkDuration;
@@ -176,6 +181,60 @@ export class Enemy extends Entity {
             case 1: this.knockbackDirection.x = -1; break;
             case 2: this.knockbackDirection.y = -1; break;
             case 3: this.knockbackDirection.x = 1;  break;
+        }
+
+        return false;
+    }
+
+    dropLoot() {
+        if (this.hasDroppedLoot) {
+            return;
+        }
+
+        this.hasDroppedLoot = true;
+
+        const inventory = this.game.player?.inventory;
+        if (!inventory) {
+            console.warn(`Não foi possível entregar os drops de ${this.name}: jogador sem inventário.`);
+            return;
+        }
+
+        for (const drop of this.drops) {
+            const chance = drop.chance ?? 1;
+
+            if (
+                typeof drop.itemId !== "string" ||
+                typeof chance !== "number" ||
+                chance < 0 ||
+                chance > 1
+            ) {
+                console.warn(`Drop inválido configurado para ${this.name}:`, drop);
+                continue;
+            }
+
+            if (Math.random() >= chance) {
+                continue;
+            }
+
+            const minQuantity = drop.minQuantity ?? 1;
+            const maxQuantity = drop.maxQuantity ?? minQuantity;
+
+            if (
+                !Number.isInteger(minQuantity) ||
+                !Number.isInteger(maxQuantity) ||
+                minQuantity < 1 ||
+                maxQuantity < minQuantity
+            ) {
+                console.warn(`Quantidade de drop inválida para ${this.name}:`, drop);
+                continue;
+            }
+
+            const quantity = minQuantity +
+                Math.floor(Math.random() * (maxQuantity - minQuantity + 1));
+
+            if (inventory.addItem(drop.itemId, quantity)) {
+                console.log(`${this.name} deixou ${quantity}x ${drop.itemId}.`);
+            }
         }
     }
 
