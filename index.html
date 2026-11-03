@@ -7,6 +7,11 @@
 >
 
 <title>Meu RPG</title>
+<meta name="theme-color" content="#202040">
+<meta name="description" content="Meu RPG: uma aventura 2D para jogar no navegador.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/game-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/game-icon-192.png">
 
 
 <style>
@@ -368,5 +373,16 @@
     type="module"
     src="./src/main.js"
 ></script>
+
+<script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js")
+                .catch((error) => {
+                    console.error("Não foi possível registrar o service worker:", error);
+                });
+        });
+    }
+</script>
 
 </body> </html>
